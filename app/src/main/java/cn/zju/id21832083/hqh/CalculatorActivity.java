@@ -1,22 +1,28 @@
 package cn.zju.id21832083.hqh;
 
-import android.support.v4.widget.DrawerLayout;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.MessageQueue;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import cn.iipc.android.tweetlib.SubmitProgram;
+import java.util.HashMap;
+
 import cn.zju.id21832083.hqh.layout.CustomDrawLayout;
+import cn.zju.id21832083.hqh.util.Calculator;
 
 public class CalculatorActivity extends AppCompatActivity {
 
-
+    private static final String TAG = "CalculatorActivity";
     private EditText calEv;
     private Button btn_1,btn_2,btn_3,btn_4,btn_5,btn_6,btn_7,btn_8,btn_9,btn_0;
     private Button btnAdd,btnSub,btnDiv,btnMul,btnCE,btnC,btnDot,btnEqual,btnBack,btnAddorSub;
@@ -24,11 +30,14 @@ public class CalculatorActivity extends AppCompatActivity {
     private TextView tvMenuItem;
     private CustomDrawLayout dlMenu;
     private LinearLayout menuItems;
+    private RelativeLayout rlRoot , calStandard , calProgrammer;
+
+    private StringBuffer calculatorStringBuilder = new StringBuffer(100);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.calculator);
+        setContentView(R.layout.calculator_standard);
 
         initComponment();
 
@@ -41,6 +50,14 @@ public class CalculatorActivity extends AppCompatActivity {
             }
         });
 
+        Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
+            @Override
+            public boolean queueIdle() {
+                calProgrammer = (RelativeLayout) LayoutInflater.
+                        from(CalculatorActivity.this).inflate(getResources().getLayout(R.layout.calculator_programmer),rlRoot,false);
+                return false;
+            }
+        });
     }
 
     private void initComponment() {
@@ -74,6 +91,20 @@ public class CalculatorActivity extends AppCompatActivity {
         dlMenu = findViewById(R.id.cal_dl);
 
         menuItems = findViewById(R.id.cal_menu_items);
+
+        setCalculateListener(btn_0,btn_1,btn_2,btn_3,btn_4,btn_5,btn_6,btn_7,btn_8,btn_9,
+                btnAdd,btnSub,btnDiv,btnMul,btnCE,btnC,btnDot,btnEqual,btnBack,btnAddorSub);
+
+        rlRoot = findViewById(R.id.cal_root);
+        calStandard = findViewById(R.id.cal_standard);
+
+        appendCalculateExpression("0");
+    }
+
+    private void setCalculateListener(Button...buttons) {
+        for (Button button : buttons) {
+            button.setOnClickListener(calculatorListener);
+        }
     }
 
 
@@ -94,10 +125,73 @@ public class CalculatorActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             String menuName = ((Button) view).getText().toString();
+            tvMenuItem.setText(menuName);
             switch (menuName){
-                case "STANDARD":break;
-                case "PROGRAMMER" : break;
+                case "STANDARD":
+                    rlRoot.removeAllViews();
+                    rlRoot.addView(calStandard);
+                    break;
+                case "PROGRAMMER" :
+                    rlRoot.removeAllViews();
+                    rlRoot.addView(calProgrammer);
+                    break;
+            }
+            dlMenu.closeDrawer(menuItems);
+        }
+    };
+
+    private View.OnClickListener calculatorListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            int id = view.getId();
+            switch (id){
+                case R.id.cal_btn_equal:
+                    Log.d(TAG,calculatorStringBuilder.toString());
+                    String expression = calculatorStringBuilder.toString().replace("÷","/")
+                            .replace("×","*").replace("—","-");
+                    double value = Calculator.conversion(expression);
+                    String res = String.valueOf(value);
+                    if (res.endsWith(".0")){
+                        res = res.replace(".0","");
+                    }
+                    calEv.setText(res);
+                    calculatorStringBuilder.delete(0,calculatorStringBuilder.length());
+                    calculatorStringBuilder.append(res);
+                    break;
+                case R.id.cal_btn_ce:
+                    calculatorStringBuilder.delete(0,calculatorStringBuilder.length());
+                    calEv.setText("0");
+                    break;
+                case R.id.cal_btn_c:
+                    calculatorStringBuilder.delete(0,calculatorStringBuilder.length());
+                    calEv.setText("0");
+                    break;
+                case R.id.cal_btn_add_del:
+                    if (!"NaN".equals(calEv.getText().toString())){
+                        calculatorStringBuilder.append(new char[]{'-'},1,1);
+                        calEv.setText(calculatorStringBuilder.toString());
+                    }
+                    break;
+                case R.id.cal_btn_back:
+                    if (calculatorStringBuilder.length() <= 1){
+                        calculatorStringBuilder.delete(0, calculatorStringBuilder.length());
+                        calEv.setText("0");
+                    }else {
+                        calculatorStringBuilder.delete(calculatorStringBuilder.length()-1, calculatorStringBuilder.length());
+                        calEv.setText(calculatorStringBuilder.toString());
+                    }
+
+                    break;
+                default:
+                    appendCalculateExpression(((Button) view).getText().toString());
+                    break;
             }
         }
     };
+
+    private void appendCalculateExpression(String expression){
+        calculatorStringBuilder.append(expression);
+        calEv.setText(calculatorStringBuilder.toString());
+    }
+
 }

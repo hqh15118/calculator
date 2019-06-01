@@ -11,7 +11,7 @@ public class CalculatorTest {
     @Test
     public void conversion() throws Exception {
 
-        String expression = "1+3.6+6/5";
+        String expression = "1+3.6+0/0";
         System.out.println(Calculator.conversion(expression));
     }
 
