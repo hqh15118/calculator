@@ -10,7 +10,7 @@
         android:layout_height="100dp">
         <EditText
             tools:text="0"
-            android:id="@+id/cal_ev"
+            android:id="@+id/calp_ev"
             android:background="@null"
             android:layout_marginRight="20dp"
             android:textColor="#000000"
@@ -23,22 +23,28 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_marginHorizontal="10dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="20dp"
         android:layout_below="@+id/rv_cal"
         android:id="@+id/ll_contents"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp">
         <RelativeLayout
             android:id="@+id/rl_hex"
-            android:layout_marginBottom="5dp"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content">
+            style="@style/rl_program">
             <TextView
+                android:id="@+id/row_hex"
+                android:visibility="invisible"
+                style="@style/row" />
+            <TextView
+                android:layout_toEndOf="@+id/row_hex"
                 android:text="HEX"
                 style="@style/Text_Program"
-                 />
+                />
             <TextView
+                android:id="@+id/calp_tv_hex"
                 android:layout_alignParentEnd="true"
                 android:text="0"
                 style="@style/Text_Program"
@@ -47,14 +53,18 @@
 
         <RelativeLayout
             android:id="@+id/rl_dec"
-            android:layout_marginBottom="5dp"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content">
+            style="@style/rl_program">
             <TextView
+                android:visibility="invisible"
+                android:id="@+id/row_dec"
+                style="@style/row" />
+            <TextView
+                android:layout_toEndOf="@+id/row_dec"
                 android:text="DEC"
                 style="@style/Text_Program"
                 />
             <TextView
+                android:id="@+id/calp_tv_dec"
                 android:layout_alignParentEnd="true"
                 android:text="0"
                 style="@style/Text_Program"
@@ -63,14 +73,18 @@
 
         <RelativeLayout
             android:id="@+id/rl_oct"
-            android:layout_marginBottom="5dp"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content">
+            style="@style/rl_program">
             <TextView
+                android:visibility="invisible"
+                android:id="@+id/row_oct"
+                style="@style/row" />
+            <TextView
+                android:layout_toEndOf="@+id/row_oct"
                 android:text="OCT"
                 style="@style/Text_Program"
                 />
             <TextView
+                android:id="@+id/calp_tv_oct"
                 android:layout_alignParentEnd="true"
                 android:text="0"
                 style="@style/Text_Program"
@@ -79,15 +93,19 @@
 
         <RelativeLayout
             android:id="@+id/rl_bin"
-            android:layout_marginBottom="5dp"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content">
+            style="@style/rl_program"
+            >
             <TextView
+                android:id="@+id/row_bin"
+                style="@style/row" />
+            <TextView
+                android:layout_toEndOf="@+id/row_bin"
                 android:text="BIN"
                 style="@style/Text_Program"
                 />
 
             <TextView
+                android:id="@+id/calp_tv_bin"
                 style="@style/Text_Program"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
@@ -97,15 +115,28 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <TextView
         android:layout_below="@+id/ll_contents"
+        android:background="#3c000000"
+        android:id="@+id/tv_padding"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <LinearLayout
+        android:id="@+id/ll_1"
+        android:layout_below="@+id/tv_padding"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        >
 
         <LinearLayout
-            style="@style/LineLayout_Theme">
+            style="@style/LineLayout_Theme"
+            >
             <LinearLayout
+                android:gravity="center"
                 style="@style/LineLayout_Theme2">
                 <Button
                     android:id="@+id/calp_btn_a"
@@ -118,12 +149,12 @@
                     android:text="B"
                     style="@style/ButtonStyle"/>
                 <Button
-                    android:id="@+id/calp_c"
+                    android:id="@+id/calp_btn_c"
                     android:layout_margin="4dp"
                     android:text="C"
                     style="@style/ButtonStyle"/>
                 <Button
-                    android:id="@+id/calp_d"
+                    android:id="@+id/calp_btn_d"
                     android:layout_margin="4dp"
                     android:text="D"
                     style="@style/ButtonStyle"/>
@@ -150,7 +181,7 @@
                     android:text="9"
                     style="@style/ButtonStyle"/>
                 <Button
-                    android:id="@+id/calp_btn_E"
+                    android:id="@+id/calp_btn_e"
                     android:layout_margin="4dp"
                     android:text="E"
                     style="@style/ButtonStyle"/>
@@ -209,7 +240,18 @@
                     android:text="0"
                     style="@style/ButtonStyle"/>
             </LinearLayout>
+
         </LinearLayout>
+
+        <Button
+            android:id="@+id/calp_clear"
+            android:text="clear"
+            android:layout_marginBottom="5dp"
+            android:layout_marginHorizontal="5dp"
+            android:textSize="20dp"
+            android:background="@drawable/btn_standard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 </RelativeLayout>
