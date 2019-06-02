@@ -13,12 +13,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.HashMap;
 
 import cn.zju.id21832083.hqh.layout.CustomDrawLayout;
 import cn.zju.id21832083.hqh.util.Calculator;
+import cn.zju.id21832083.hqh.util.VibratorUtil;
 
 public class CalculatorActivity extends AppCompatActivity {
 
@@ -29,8 +31,10 @@ public class CalculatorActivity extends AppCompatActivity {
     private CustomDrawLayout dlMenu;
     private LinearLayout menuItems;
     private RelativeLayout rlRoot , calStandard , calProgrammer;
+    private ScrollView calUnicode;
 
     private StringBuffer calculatorStringBuilder = new StringBuffer(100);
+    private MainDialog mainDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +43,7 @@ public class CalculatorActivity extends AppCompatActivity {
 
         initComponment();
 
-        addMenuItem(new String[]{"STANDARD","PROGRAMMER"});
+        addMenuItem(new String[]{"STANDARD","PROGRAMMER","UNICODE"});
 
         btnMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,10 +56,19 @@ public class CalculatorActivity extends AppCompatActivity {
         Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
             @Override
             public boolean queueIdle() {
+                mainDialog = new MainDialog(CalculatorActivity.this);
+
+                //program view
                 calProgrammer = (RelativeLayout) LayoutInflater.
                         from(CalculatorActivity.this).inflate(getResources().getLayout(R.layout.calculator_programmer),rlRoot,false);
                 CalculatorProgrammerHelper calculatorProgrammerHelper = new CalculatorProgrammerHelper();
                 calculatorProgrammerHelper.attach(calProgrammer);
+
+                //unicode view
+                calUnicode = (ScrollView) LayoutInflater.
+                        from(CalculatorActivity.this).inflate(getResources().getLayout(R.layout.calculator_unicode),rlRoot,false);
+                CalculatorUnicodeHelper calculatorUnicodeHelper = new CalculatorUnicodeHelper();
+                calculatorUnicodeHelper.attach(calUnicode);
                 return false;
             }
         });
@@ -86,6 +99,7 @@ public class CalculatorActivity extends AppCompatActivity {
         Button btnEqual = findViewById(R.id.cal_btn_equal);
         Button btnBack = findViewById(R.id.cal_btn_back);
         Button btnAddorSub = findViewById(R.id.cal_btn_add_del);
+        Button btnMore = findViewById(R.id.btn_more);
 
         btnMenu = findViewById(R.id.btn_menu);
         tvMenuItem = findViewById(R.id.tvMenuItem);
@@ -98,7 +112,8 @@ public class CalculatorActivity extends AppCompatActivity {
         calStandard = findViewById(R.id.cal_standard);
 
         setCalculateListener(btn_0, btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9,
-                btnAdd, btnSub, btnDiv, btnMul, btnCE, btnC, btnDot, btnEqual, btnBack, btnAddorSub);
+                btnAdd, btnSub, btnDiv, btnMul, btnCE, btnC, btnDot, btnEqual, btnBack, btnAddorSub,
+                btnMore);
 
         appendCalculateExpression("0");
     }
@@ -136,6 +151,10 @@ public class CalculatorActivity extends AppCompatActivity {
                 case "PROGRAMMER" :
                     rlRoot.removeAllViews();
                     rlRoot.addView(calProgrammer);
+                    break;
+                case "UNICODE" :
+                    rlRoot.removeAllViews();
+                    rlRoot.addView(calUnicode);
                     break;
             }
             dlMenu.closeDrawer(menuItems);
@@ -182,12 +201,16 @@ public class CalculatorActivity extends AppCompatActivity {
                         calculatorStringBuilder.delete(calculatorStringBuilder.length()-1, calculatorStringBuilder.length());
                         calEv.setText(calculatorStringBuilder.toString());
                     }
-
+                    break;
+                case R.id.btn_more:
+                    mainDialog.show();
                     break;
                 default:
                     appendCalculateExpression(((Button) view).getText().toString());
                     break;
             }
+
+            shake();
         }
     };
 
@@ -197,6 +220,10 @@ public class CalculatorActivity extends AppCompatActivity {
     }
 
 
-
+    private void shake(){
+        if (Common.isShake()){
+            VibratorUtil.Vibrate(this,100);
+        }
+    }
 
 }

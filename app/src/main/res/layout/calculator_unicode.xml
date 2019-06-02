@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:text="native"
+            style="@style/Text_Unicode_tv" />
+
+        <EditText
+            android:id="@+id/ev_byte"
+            style="@style/Text_Unicode_ev" />
+
+        <TextView
+            android:text="UTF-8"
+            style="@style/Text_Unicode_tv" />
+
+        <EditText
+            android:id="@+id/ev_uft_8"
+            style="@style/Text_Unicode_ev" />
+
+
+        <TextView
+            android:text="UTF-16"
+            style="@style/Text_Unicode_tv" />
+
+        <EditText
+            android:id="@+id/ev_uft_16"
+            style="@style/Text_Unicode_ev" />
+
+        <TextView
+            android:text="ASCII"
+            style="@style/Text_Unicode_tv" />
+
+        <EditText
+            android:id="@+id/ev_ascii"
+            style="@style/Text_Unicode_ev" />
+    </LinearLayout>
+</ScrollView>

@@ -19,7 +19,9 @@
             android:textSize="40dp"
             android:textAlignment="textEnd"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:editable="false"
+            tools:ignore="Deprecated" />
     </RelativeLayout>
 
     <LinearLayout
@@ -243,15 +245,33 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/calp_clear"
-            android:text="clear"
-            android:layout_marginBottom="5dp"
-            android:layout_marginHorizontal="5dp"
-            android:textSize="20dp"
-            android:background="@drawable/btn_standard"
+
+
+        <LinearLayout
+
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_margin="4dp"
+                android:id="@+id/calp_clear"
+                android:text="clear"
+                android:layout_marginBottom="5dp"
+                android:textSize="20dp"
+                android:background="@drawable/btn_standard"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+            <Button
+                android:layout_margin="4dp"
+                android:id="@+id/calp_back"
+                android:text="->"
+                android:layout_marginBottom="5dp"
+                android:textSize="20dp"
+                android:background="@drawable/btn_standard"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
     </LinearLayout>
 </RelativeLayout>

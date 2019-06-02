@@ -1,5 +1,6 @@
 package cn.zju.id21832083.hqh;
 
+import android.content.Context;
 import android.view.View;
 
 /**
@@ -13,6 +14,10 @@ public abstract class BaseCalculatorHelper<T extends View> implements ICalculato
     public void attach(T view) {
         rootView = view;
         init(view);
+    }
+
+    protected Context context(){
+        return rootView.getContext();
     }
 
 

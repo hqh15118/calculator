@@ -64,4 +64,28 @@
         <item name="android:layout_marginBottom">5dp</item>
     </style>
 
+
+    <!--中间弹出Dialog动画-->
+    <style name="CenterDialog" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/dialog_center_in</item>
+        <item name="android:windowExitAnimation">@anim/dialog_center_out</item>
+    </style>
+
+
+    <style name="Text_Unicode_tv">
+        <item name="android:textSize">16dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">5dp</item>
+    </style>
+
+    <style name="Text_Unicode_ev">
+        <item name="android:textSize">16dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:background">@drawable/unicode_ev</item>
+        <item name="android:lines">5</item>
+    </style>
+
 </resources>

@@ -8,16 +8,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.lang.reflect.Field;
-import java.math.BigInteger;
-import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import cn.zju.id21832083.hqh.util.CommonUtil;
+import cn.zju.id21832083.hqh.util.VibratorUtil;
 
 /**
  * Created by hongqianhui on 2019/6/1.
@@ -37,6 +34,8 @@ public class CalculatorProgrammerHelper extends BaseCalculatorHelper<RelativeLay
     private RelativeLayout rlBin,rlHex,rlDec,rlOct;
     private Button btnClear;
     private int lastRadix = KEY_BOARD_BIN;          //初始为二进制
+    private boolean textChange = true;
+    private Button btnBack;
 
     private static final int KEY_BOARD_BIN = 2,
                              KEY_BOARD_HEX = 16,
@@ -49,10 +48,20 @@ public class CalculatorProgrammerHelper extends BaseCalculatorHelper<RelativeLay
     public void init(RelativeLayout view) {
         calPEv = getComponmentById(R.id.calp_ev,EditText.class);
         btnClear = getComponmentById(R.id.calp_clear,Button.class);
+        btnBack = getComponmentById(R.id.calp_back,Button.class);
+
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                shake();
                 setExpression("0");
+            }
+        });
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shake();
+                delExpression();
             }
         });
         //init btn
@@ -97,9 +106,8 @@ public class CalculatorProgrammerHelper extends BaseCalculatorHelper<RelativeLay
                     }
                 },new String[]{"rlHex", "rlBin", "rlDec", "rlOct"});
 
+        calPEv.setText("0");
 
-
-        setExpression("0");
         setKeyboardStyle(KEY_BOARD_BIN);
 
         calPEv.addTextChangedListener(new TextWatcher() {
@@ -115,7 +123,10 @@ public class CalculatorProgrammerHelper extends BaseCalculatorHelper<RelativeLay
 
             @Override
             public void afterTextChanged(Editable editable) {
-                radixChange(lastRadix,lastRadix,false);
+                //只有是setExpression方法改变才修改
+                if (textChange) {
+                    radixChange(lastRadix, lastRadix, false);
+                }
             }
         });
     }
@@ -154,6 +165,7 @@ public class CalculatorProgrammerHelper extends BaseCalculatorHelper<RelativeLay
         @Override
         public void onClick(View view) {
             Button clickButton = ((Button) view);
+            shake();
             appendExpression(clickButton.getText().toString());
         }
     };
@@ -186,6 +198,7 @@ public class CalculatorProgrammerHelper extends BaseCalculatorHelper<RelativeLay
                 radixChange(lastRadix,keyBoardType,true);
                 lastRadix = keyBoardType;
             }
+            shake();
         }
     };
 
@@ -197,10 +210,12 @@ public class CalculatorProgrammerHelper extends BaseCalculatorHelper<RelativeLay
             setTextViewContent(tvHex, Long.toHexString(i).toUpperCase());
             setTextViewContent(tvOct, Long.toOctalString(i));
             if (changeEdit) {
+                textChange = false;
                 setExpression(Long.toString(i, toRadix));
             }
+            textChange = true;
         }catch (NumberFormatException e){
-            CommonUtil.showToast(calPEv.getContext(),"数据长度超过限制");
+            CommonUtil.showToast(calPEv,"数据长度超过限制");
         }
     }
 
@@ -253,13 +268,36 @@ public class CalculatorProgrammerHelper extends BaseCalculatorHelper<RelativeLay
 
 
     private void appendExpression(String text){
-        programExpressionBuilder.append(text);
-        calPEv.setText(programExpressionBuilder.toString());
+        if ("0".equals(calPEv.getText().toString())){
+            setExpression(text);
+        }else {
+            String upperText = text.toUpperCase();
+            programExpressionBuilder.append(upperText);
+            calPEv.setText(programExpressionBuilder.toString());
+        }
     }
 
     private void setExpression(String text){
+        String upperText = text.toUpperCase();
         programExpressionBuilder.delete(0,programExpressionBuilder.length());
-        calPEv.setText(text);
+        programExpressionBuilder.append(upperText);
+        calPEv.setText(upperText);
+    }
+
+    private void delExpression(){
+        if (programExpressionBuilder.length() > 1) {
+            programExpressionBuilder.delete(programExpressionBuilder.length() - 1, programExpressionBuilder.length());
+            calPEv.setText(programExpressionBuilder.toString());
+        }else{
+            setExpression("0");
+        }
+    }
+
+
+    private void shake(){
+        if (Common.isShake()){
+            VibratorUtil.Vibrate(context(),100);
+        }
     }
 
     private interface addCallback<S>{
