@@ -18,6 +18,7 @@ import cn.zju.id21832083.hqh.util.VibratorUtil;
 
 /**
  * Created by hongqianhui on 2019/6/1.
+ *
  */
 
 public class CalculatorProgrammerHelper extends BaseCalculatorHelper<RelativeLayout> {
