@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">hqh</string>
     <string name="md5">MD5\n加密解密</string>
+    <string name="title_activity_weibo_main">WeiboMainActivity</string>
+    <string name="add">+</string>
+    <string name="mine">Mine</string>
+    <string name="title_notifications">Notifications</string>
 </resources>

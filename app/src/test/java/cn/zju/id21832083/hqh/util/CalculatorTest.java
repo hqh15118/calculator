@@ -1,5 +1,7 @@
 package cn.zju.id21832083.hqh.util;
 
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.Hex;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -32,6 +34,26 @@ public class CalculatorTest {
         System.out.println(String.valueOf(((int) eight.charAt(0))));
         String two = "2";
         System.out.println(String.valueOf(((int) two.charAt(0))));
+    }
+
+    @Test
+    public void yihuoTest(){
+        int i = 0;
+        i ^= 1;
+        System.out.println(i);
+        i ^= 1;
+        System.out.println(i);
+    }
+
+    @Test
+    public void encodeAndDecodeTest(){
+        String rawText = "orz。。。。ggg";
+        Base64 base64 = new Base64();
+        byte[] bytes = base64.decode(rawText);
+        String hex = Hex.encodeHexString(bytes);
+        System.out.println(hex);
+        byte[] bytes1 = new byte[]{0x11};
+        System.out.println(Hex.encodeHexString(bytes1));
     }
 
 }

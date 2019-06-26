@@ -9,7 +9,7 @@ import android.util.TypedValue;
  *         description:
  */
 
-public class ScreenUtils {
+public class ScreenUtil {
     /**
      * 得到屏幕宽度
      */

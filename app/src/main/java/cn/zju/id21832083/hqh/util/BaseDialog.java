@@ -41,11 +41,11 @@ public abstract class BaseDialog extends Dialog {
         if(getWidth() <= 0)
             lp.width = (int)getWidth();
         else
-            lp.width = (int)(ScreenUtils.getScreenWidth(getContext()) * getWidth());
+            lp.width = (int)(ScreenUtil.getScreenWidth(getContext()) * getWidth());
         if(getHeight() <= 0)
             lp.height = (int)getHeight();
         else
-            lp.height = (int)(ScreenUtils.getScreenWidth(getContext()) * getHeight());
+            lp.height = (int)(ScreenUtil.getScreenWidth(getContext()) * getHeight());
         lp.gravity = getGravity();
         window.setAttributes(lp);
         window.setBackgroundDrawableResource(R.color.transparent);

@@ -3,7 +3,6 @@
     package="cn.zju.id21832083.hqh">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
@@ -12,13 +11,17 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/HQHTheme">
-        <activity android:name=".CalculatorActivity">
+        <activity android:name=".RefreshLayoutActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".CalculatorActivity" />
+        <activity
+            android:name=".WeiboMainActivity"
+            android:label="@string/title_activity_weibo_main"></activity>
     </application>
 
 </manifest>
