@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/tv_submit"
+        android:textColor="#6472d6"
+        android:padding="10dp"
+        android:gravity="end"
+        android:text="发布微博"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autoLink="all"/>
+
+        <EditText
+            android:padding="5dp"
+            android:gravity="start"
+            android:layout_below="@+id/tv_submit"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:hint="输入内容"
+            android:id="@+id/et_content"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:background="@drawable/weibo_content_bg"/>
+
+    <TextView
+        android:padding="10dp"
+        android:gravity="end"
+        android:layout_below="@+id/et_content"
+        android:text="140"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

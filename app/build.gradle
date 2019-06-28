@@ -34,5 +34,4 @@ dependencies {
     implementation group: 'io.reactivex.rxjava2', name: 'rxandroid', version: '2.1.1'
     //refresh layout
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-28'
-
 }
